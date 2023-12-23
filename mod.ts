@@ -40,7 +40,7 @@ export class DiscordWebhook {
         let isURLFlag = false;
 
         try {
-            if (!("avater" in context)) {
+            if (!('avater' in context)) {
                 isURLFlag = true;
 
                 return result as unknown as FetchContext;
@@ -48,11 +48,13 @@ export class DiscordWebhook {
 
             new URL(context.avatar ?? '');
             isURLFlag = true;
-        }catch(_e) {
+        } catch (_e) {
             isURLFlag = false;
             Logger.log(
-                `${Logger.timestamp()} ${Logger.yellow(`[!]`)}Avatar Invalid URL : ${this.maskURL(Logger.yellow(context.avatar ?? ''))}`,
-            )
+                `${Logger.timestamp()} ${Logger.yellow(`[!]`)}Avatar Invalid URL : ${
+                    this.maskURL(Logger.yellow(context.avatar ?? ''))
+                }`,
+            );
         }
 
         if (isURLFlag) {
@@ -62,9 +64,12 @@ export class DiscordWebhook {
         return result as unknown as FetchContext;
     }
 
-    public async sendMessage(context: Context, options: HeadersInit = new Headers({
-        'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.0',
-    })): Promise<Result> {
+    public async sendMessage(
+        context: Context,
+        options: HeadersInit = new Headers({
+            'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.0',
+        }),
+    ): Promise<Result> {
         const ctx = this.generateMessageContext(context);
 
         const res = await fetch(this.url, {
@@ -74,16 +79,21 @@ export class DiscordWebhook {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(ctx),
-        })
+        });
 
         return await this.parser(res);
     }
 
-    public async sendMessageWithProxy(context: Context, options: HeadersInit = new Headers({
-        'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.' + Math.floor(Math.random() * 10).toString(),
-    }), proxy: Deno.Proxy) {
+    public async sendMessageWithProxy(
+        context: Context,
+        options: HeadersInit = new Headers({
+            'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.' +
+                Math.floor(Math.random() * 10).toString(),
+        }),
+        proxy: Deno.Proxy,
+    ) {
         const client = Deno.createHttpClient({
-            proxy
+            proxy,
         });
 
         const ctx = this.generateMessageContext(context);
@@ -95,8 +105,8 @@ export class DiscordWebhook {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(ctx),
-            client
-        })
+            client,
+        });
 
         return await this.parser(res);
     }
@@ -114,8 +124,8 @@ export class DiscordWebhook {
                 raw: res,
                 result: 'failed',
                 body: await res.json(),
-            }
-        }else {
+            };
+        } else {
             Logger.log(
                 `${Logger.timestamp()} ${Logger.green(`(+)`)} Discord API Success`,
             );
@@ -127,12 +137,11 @@ export class DiscordWebhook {
                 raw: res,
                 result: 'success',
                 body: await res.json(),
-            }
+            };
         }
     }
 
-    __test__(prop: string) {
+    public __test__(prop: string) {
         return getProp<typeof this>(this, prop);
     }
 }
-

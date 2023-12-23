@@ -15,6 +15,6 @@ export type Result = {
     status_text: string;
     headers: HeadersInit;
     raw: ResponseInit;
-    result: "success" | "failed";
+    result: 'success' | 'failed';
     body: unknown;
-}
+};

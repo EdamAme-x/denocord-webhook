@@ -53,3 +53,29 @@ Deno.test('context test 2', () => {
         'content': 'test',
     }, result2);
 });
+
+Deno.test('parser test', async () => {
+    const dwh = new DiscordWebhook(
+        'https://discordapp.com/api/webhooks/1187964421344079932/nq8hOq79N4QldaXsaef-23sUZlhBIPEIljmRxEALauzMPpD4ZTf_10mRieasKiA5c8-C',
+    );
+
+    const result = await dwh.__test__('parser')(
+        new Response(
+            JSON.stringify({ 'content': 'test' }),
+            {
+                'status': 200,
+                'statusText': 'OK',
+                'headers': {
+                    'Content-Type': 'application/json',
+                },
+            },
+        ),
+    );
+
+    assertEquals(200, result.status);
+    assertEquals('OK', result.status_text);
+    assertEquals({
+        'content': 'test',
+    }, result.body);
+    assertEquals('application/json', result.headers.get('content-type')!);
+});
