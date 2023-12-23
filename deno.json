@@ -1,8 +1,8 @@
 {
-    "tasks": {
-        "test": "deno test --unstable"
-    },
-    "imports": {
-        "@/": "./"
-    }
+  "tasks": {
+    "test": "deno test --unstable"
+  },
+  "imports": {
+    "@/": "./"
+  }
 }
