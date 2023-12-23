@@ -6,7 +6,7 @@ export class DiscordWebhook {
   url: `https://discordapp.com/api/webhooks/${string}`;
 
   private maskURL(url: string) {
-    return url.substring(0, 40) + "...";
+    return url.substring(0, 50) + "...";
   }
 
   constructor(
