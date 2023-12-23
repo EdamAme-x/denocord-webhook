@@ -1,5 +1,6 @@
 import { webhookURLValidator } from "@/Validator/validator.ts";
 import { Logger } from "@/Logger/mod.ts";
+import { deleteNullProp, getProp } from "@/Ignore/mod.ts";
 
 export class DiscordWebhook {
   url: `https://discordapp.com/api/webhooks/${string}`;
@@ -40,22 +41,12 @@ export class DiscordWebhook {
       avatar_url: context.avatar ?? null,
     };
 
-    for (const prop in result) {
-      // deno-lint-ignore ban-ts-comment
-      // @ts-ignore
-      if (result[prop] === null) {
-        // deno-lint-ignore ban-ts-comment
-        // @ts-ignore
-        delete result[prop];
-      }
-    }
+    deleteNullProp<typeof result>(result);
 
     return result;
   }
 
   __test__(prop: string) {
-    // deno-lint-ignore ban-ts-comment
-    // @ts-ignore
-    return this[prop];
+    return getProp<typeof this>(this, prop);
   }
 }
