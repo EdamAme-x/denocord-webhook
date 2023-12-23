@@ -32,12 +32,18 @@ export class DiscordWebhook {
   private generateMessageContext(context: {
     text: string;
     username?: string;
-    avatarURL?: string;
+    avatar?: string;
   }) {
     return {
-      content: context.text,
+      text: context.text,
       username: context.username ?? null,
-      avatarURL: context.avatarURL ?? null,
+      avatar: context.avatar ?? null,
     };
+  }
+
+  __test__(prop: string) {
+    // deno-lint-ignore ban-ts-comment
+    // @ts-ignore 
+    return this[prop];
   }
 }
