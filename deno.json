@@ -1,8 +1,21 @@
 {
-  "tasks": {
-    "test": "deno test --unstable"
-  },
-  "imports": {
-    "@/": "./"
-  }
+    "tasks": {
+        "test": "deno test --unstable"
+    },
+    "imports": {
+        "@/": "./"
+    },
+    "fmt": {
+        "files": {
+            "exclude": ["node_modules"]
+        },
+        "options": {
+            "useTabs": false,
+            "singleQuote": true,
+            "indentWidth": 4,
+            "lineWidth": 120,
+            "proseWrap": "always",
+            "semiColons": true
+        }
+    }
 }
