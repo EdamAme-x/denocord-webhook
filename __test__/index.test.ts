@@ -1,5 +1,5 @@
 import { assertEquals, assertFalse } from 'https://deno.land/std@0.184.0/testing/asserts.ts';
-import { webhookURLValidator } from '@/Validator/validator.ts';
+import { webhookURLValidator } from '@/Validator/mod.ts';
 import { DiscordWebhook } from '@/mod.ts';
 
 Deno.test('validator test 1', () => {

@@ -4,7 +4,7 @@ export function getProp<T = unknown>(self: T, prop: string) {
     return self[prop];
 }
 
-export function deleteNullProp<T = unknown>(self: T) {
+export function deleteNullProp<T = unknown, K = T>(self: T): K {
     for (const prop in self) {
         // deno-lint-ignore ban-ts-comment
         // @ts-ignore
@@ -15,5 +15,5 @@ export function deleteNullProp<T = unknown>(self: T) {
         }
     }
 
-    return self;
+    return self as unknown as K;
 }

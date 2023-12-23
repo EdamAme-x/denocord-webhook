@@ -1,6 +1,7 @@
-import { webhookURLValidator } from '@/Validator/validator.ts';
+import { webhookURLValidator } from '@/Validator/mod.ts';
 import { Logger } from '@/Logger/mod.ts';
 import { deleteNullProp, getProp } from '@/Ignore/mod.ts';
+import { Context, FetchContext, Result } from '@/Types/mod.ts';
 
 export class DiscordWebhook {
     url: `https://discordapp.com/api/webhooks/${string}`;
@@ -26,11 +27,7 @@ export class DiscordWebhook {
         );
     }
 
-    private generateMessageContext(context: {
-        text: string;
-        username?: string;
-        avatar?: string;
-    }) {
+    private generateMessageContext(context: Context): FetchContext {
         const result = {
             content: context.text,
             username: context.username ?? null,
@@ -39,7 +36,73 @@ export class DiscordWebhook {
 
         deleteNullProp<typeof result>(result);
 
-        return result;
+        let isURLFlag = false;
+
+        try {
+            if (!("avater" in context)) {
+                isURLFlag = true;
+
+                return result as unknown as FetchContext;
+            }
+
+            new URL(context.avatar ?? '');
+            isURLFlag = true;
+        }catch(_e) {
+            isURLFlag = false;
+            Logger.log(
+                `${Logger.timestamp()} ${Logger.yellow(`[!]`)}Avatar Invalid URL : ${this.maskURL(Logger.yellow(context.avatar ?? ''))}`,
+            )
+        }
+
+        if (isURLFlag) {
+            result.avatar_url = context.avatar as `https://${string}` | `https://${string}`;
+        }
+
+        return result as unknown as FetchContext;
+    }
+
+    public async sendMessage(context: Context, options: HeadersInit = new Headers({
+        'Content-Type': 'application/json',
+        'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.0',
+    })): Promise<Result> {
+        const ctx = this.generateMessageContext(context);
+
+        const res = await fetch(this.url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...options,
+            },
+            body: JSON.stringify(ctx),
+        })
+
+        if (!res.ok) {
+            Logger.log(
+                `${Logger.timestamp()} ${Logger.red(`(-)`)} Discord API Error`,
+            );
+
+            return {
+                status: res.status,
+                status_text: res.statusText,
+                headers: res.headers,
+                raw: res,
+                result: 'failed',
+                body: await res.json(),
+            }
+        }else {
+            Logger.log(
+                `${Logger.timestamp()} ${Logger.green(`(+)`)} Discord API Success`,
+            );
+
+            return {
+                status: res.status,
+                status_text: res.statusText,
+                headers: res.headers,
+                raw: res,
+                result: 'success',
+                body: await res.json(),
+            }
+        }
     }
 
     __test__(prop: string) {
