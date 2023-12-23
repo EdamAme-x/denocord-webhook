@@ -1,3 +1,4 @@
+/// <reference lib="deno.unstable" />
 import { webhookURLValidator } from '@/Validator/mod.ts';
 import { Logger } from '@/Logger/mod.ts';
 import { deleteNullProp, getProp } from '@/Ignore/mod.ts';
@@ -62,7 +63,6 @@ export class DiscordWebhook {
     }
 
     public async sendMessage(context: Context, options: HeadersInit = new Headers({
-        'Content-Type': 'application/json',
         'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.0',
     })): Promise<Result> {
         const ctx = this.generateMessageContext(context);
@@ -70,12 +70,38 @@ export class DiscordWebhook {
         const res = await fetch(this.url, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 ...options,
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(ctx),
         })
 
+        return await this.parser(res);
+    }
+
+    public async sendMessageWithProxy(context: Context, options: HeadersInit = new Headers({
+        'User-Agent': 'Denocord - @amex2189 / github:@EdamAme-x - Safari 1.0.' + Math.floor(Math.random() * 10).toString(),
+    }), proxy: Deno.Proxy) {
+        const client = Deno.createHttpClient({
+            proxy
+        });
+
+        const ctx = this.generateMessageContext(context);
+
+        const res = await fetch(this.url, {
+            method: 'POST',
+            headers: {
+                ...options,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ctx),
+            client
+        })
+
+        return await this.parser(res);
+    }
+
+    private async parser(res: Response): Promise<Result> {
         if (!res.ok) {
             Logger.log(
                 `${Logger.timestamp()} ${Logger.red(`(-)`)} Discord API Error`,
@@ -109,3 +135,4 @@ export class DiscordWebhook {
         return getProp<typeof this>(this, prop);
     }
 }
+
