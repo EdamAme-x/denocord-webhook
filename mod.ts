@@ -34,16 +34,28 @@ export class DiscordWebhook {
     username?: string;
     avatar?: string;
   }) {
-    return {
-      text: context.text,
+    const result = {
+      content: context.text,
       username: context.username ?? null,
-      avatar: context.avatar ?? null,
+      avatar_url: context.avatar ?? null,
     };
+
+    for (const prop in result) {
+      // deno-lint-ignore ban-ts-comment
+      // @ts-ignore
+      if (result[prop] === null) {
+        // deno-lint-ignore ban-ts-comment
+        // @ts-ignore
+        delete result[prop];
+      }
+    }
+
+    return result;
   }
 
   __test__(prop: string) {
     // deno-lint-ignore ban-ts-comment
-    // @ts-ignore 
+    // @ts-ignore
     return this[prop];
   }
 }
