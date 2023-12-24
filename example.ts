@@ -1,4 +1,4 @@
-import { DiscordWebhook } from '@/mod.ts';
+import { DiscordWebhook } from 'https://deno.land/x/denocord_webhook/mod.ts';
 
 const DiscordWH = new DiscordWebhook(
     '{{Discord Webhook Url}}',
