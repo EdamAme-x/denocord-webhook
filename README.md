@@ -28,4 +28,17 @@ DiscordWH.sendMessage({
     "username": "hello", // bot's username
     "avatar": "https://placehold.jp/150x150.png" // bot's icon
 })
+
+/**
+ * 
+ * DiscordWH.sendMessageWithProxy({
+ *  "text": "test", // message content
+ *  "username": "hello", // bot's username
+ *  "avatar": "https://placehold.jp/150x150.png" // bot's icon
+ * }, {
+ *  "url": "http://127.0.0.1:40000"
+ * })
+ * 
+ * 
+ */
 ```
