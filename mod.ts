@@ -5,7 +5,7 @@ import { deleteNullProp, getProp } from '@/Ignore/mod.ts';
 import { Context, FetchContext, Result } from '@/Types/mod.ts';
 
 export class DiscordWebhook {
-    url: `https://discordapp.com/api/webhooks/${string}`;
+    url: `https://discordapp.com/api/webhooks/${string}` | `https://discord.com/api/webhooks/${string}` ;
 
     private maskURL(url: string) {
         return url.substring(0, 50) + '...';
@@ -22,7 +22,7 @@ export class DiscordWebhook {
             Deno.exit(1);
         }
 
-        this.url = url as `https://discordapp.com/api/webhooks/${string}`;
+        this.url = url as `https://discordapp.com/api/webhooks/${string}` | `https://discord.com/api/webhooks/${string}` ;
         Logger.log(
             `${Logger.timestamp()} ${Logger.green(`(+)`)} Valid webhook URL : ${this.maskURL(Logger.yellow(url))}`,
         );
