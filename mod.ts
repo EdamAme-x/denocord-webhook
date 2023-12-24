@@ -19,7 +19,6 @@ export class DiscordWebhook {
             Logger.log(
                 `${Logger.timestamp()} ${Logger.red(`(-)`)} Invalid webhook URL : ${this.maskURL(Logger.yellow(url))}`,
             );
-            Deno.exit(1);
         }
 
         this.url = url as `https://discordapp.com/api/webhooks/${string}`;
