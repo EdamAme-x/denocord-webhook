@@ -123,7 +123,7 @@ export class DiscordWebhook {
                 headers: res.headers,
                 raw: res,
                 result: 'failed',
-                body: await res.json(),
+                body: await res.text(),
             };
         } else {
             Logger.log(
@@ -136,7 +136,7 @@ export class DiscordWebhook {
                 headers: res.headers,
                 raw: res,
                 result: 'success',
-                body: await res.json(),
+                body: await res.text(),
             };
         }
     }
