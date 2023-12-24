@@ -2,9 +2,6 @@
     "tasks": {
         "test": "deno test --unstable"
     },
-    "imports": {
-        "@/": "./"
-    },
     "fmt": {
         "files": {
             "exclude": ["node_modules"]

@@ -1,8 +1,8 @@
 /// <reference lib="deno.unstable" />
-import { webhookURLValidator } from '@/Validator/mod.ts';
-import { Logger } from '@/Logger/mod.ts';
-import { deleteNullProp, getProp } from '@/Ignore/mod.ts';
-import { Context, FetchContext, Result } from '@/Types/mod.ts';
+import { webhookURLValidator } from './Validator/mod.ts';
+import { Logger } from './Logger/mod.ts';
+import { deleteNullProp, getProp } from './Ignore/mod.ts';
+import { Context, FetchContext, Result } from './Types/mod.ts';
 
 export class DiscordWebhook {
     url: `https://discordapp.com/api/webhooks/${string}`;

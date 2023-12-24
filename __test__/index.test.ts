@@ -1,6 +1,6 @@
 import { assertEquals, assertFalse } from 'https://deno.land/std@0.184.0/testing/asserts.ts';
-import { webhookURLValidator } from '@/Validator/mod.ts';
-import { DiscordWebhook } from '@/mod.ts';
+import { webhookURLValidator } from '../Validator/mod.ts';
+import { DiscordWebhook } from '../mod.ts';
 
 Deno.test('validator test 1', () => {
     const url =
@@ -74,9 +74,7 @@ Deno.test('parser test', async () => {
 
     assertEquals(200, result.status);
     assertEquals('OK', result.status_text);
-    assertEquals({
-        'content': 'test',
-    }, result.body);
+    assertEquals("{\"content\":\"test\"}", result.body);
     assertEquals('application/json', result.headers.get('content-type')!);
 });
 
